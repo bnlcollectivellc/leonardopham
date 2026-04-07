@@ -15,12 +15,12 @@ export default function Footer({ onPageChange }: FooterProps) {
   };
 
   return (
-    <footer className="bg-surface-dark text-white/60">
+    <footer className="bg-white text-muted">
       <FadeIn>
-      <div className="px-4 pt-5 pb-4">
+      <div className="px-4 pt-5 pb-4 border-t border-border">
         {/* Brand */}
         <div className="mb-4">
-          <p className="text-[14px] font-medium tracking-[0.02em] text-white mb-2">
+          <p className="text-[14px] font-medium tracking-[0.02em] text-foreground mb-2">
             Leonardo Pham
           </p>
           <p className="text-[13px] leading-relaxed max-w-[280px]">
@@ -33,7 +33,7 @@ export default function Footer({ onPageChange }: FooterProps) {
         <div className="grid grid-cols-3 gap-6 md:gap-8 mb-4">
           {/* Navigate */}
           <div>
-            <p className="text-[10px] md:text-[11px] tracking-[0.1em] uppercase text-white/30 mb-3 md:mb-4">
+            <p className="text-[10px] md:text-[11px] tracking-[0.1em] uppercase text-muted/40 mb-3 md:mb-4">
               Navigate
             </p>
             <ul className="space-y-2">
@@ -45,7 +45,7 @@ export default function Footer({ onPageChange }: FooterProps) {
                 <li key={item.label}>
                   <button
                     onClick={() => navigateTo(item.page)}
-                    className="text-[13px] md:text-[14px] hover:text-white transition-colors duration-200"
+                    className="text-[13px] md:text-[14px] hover:text-foreground transition-colors duration-200"
                   >
                     {item.label}
                   </button>
@@ -56,14 +56,14 @@ export default function Footer({ onPageChange }: FooterProps) {
 
           {/* Services */}
           <div>
-            <p className="text-[10px] md:text-[11px] tracking-[0.1em] uppercase text-white/30 mb-3 md:mb-4">
+            <p className="text-[10px] md:text-[11px] tracking-[0.1em] uppercase text-muted/40 mb-3 md:mb-4">
               Services
             </p>
             <ul className="space-y-2">
               <li>
                 <button
                   onClick={() => navigateTo("content")}
-                  className="text-[13px] md:text-[14px] hover:text-white transition-colors duration-200 text-left"
+                  className="text-[13px] md:text-[14px] hover:text-foreground transition-colors duration-200 text-left"
                 >
                   Content
                 </button>
@@ -71,7 +71,7 @@ export default function Footer({ onPageChange }: FooterProps) {
               <li>
                 <button
                   onClick={() => navigateTo("websites")}
-                  className="text-[13px] md:text-[14px] hover:text-white transition-colors duration-200 text-left"
+                  className="text-[13px] md:text-[14px] hover:text-foreground transition-colors duration-200 text-left"
                 >
                   Websites
                 </button>
@@ -79,7 +79,7 @@ export default function Footer({ onPageChange }: FooterProps) {
               <li>
                 <button
                   onClick={() => navigateTo("apps")}
-                  className="text-[13px] md:text-[14px] hover:text-white transition-colors duration-200 text-left"
+                  className="text-[13px] md:text-[14px] hover:text-foreground transition-colors duration-200 text-left"
                 >
                   Apps
                 </button>
@@ -89,14 +89,14 @@ export default function Footer({ onPageChange }: FooterProps) {
 
           {/* Contact */}
           <div>
-            <p className="text-[10px] md:text-[11px] tracking-[0.1em] uppercase text-white/30 mb-3 md:mb-4">
+            <p className="text-[10px] md:text-[11px] tracking-[0.1em] uppercase text-muted/40 mb-3 md:mb-4">
               Contact
             </p>
             <ul className="space-y-2">
               <li>
                 <a
                   href="mailto:leopham00@gmail.com"
-                  className="text-[13px] md:text-[14px] hover:text-white transition-colors duration-200"
+                  className="text-[13px] md:text-[14px] hover:text-foreground transition-colors duration-200"
                 >
                   Email
                 </a>
@@ -106,7 +106,7 @@ export default function Footer({ onPageChange }: FooterProps) {
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[13px] md:text-[14px] hover:text-white transition-colors duration-200"
+                  className="text-[13px] md:text-[14px] hover:text-foreground transition-colors duration-200"
                 >
                   Instagram
                 </a>
@@ -116,7 +116,7 @@ export default function Footer({ onPageChange }: FooterProps) {
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[13px] md:text-[14px] hover:text-white transition-colors duration-200"
+                  className="text-[13px] md:text-[14px] hover:text-foreground transition-colors duration-200"
                 >
                   LinkedIn
                 </a>
@@ -126,11 +126,11 @@ export default function Footer({ onPageChange }: FooterProps) {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-white/10 pt-2 pb-0 flex flex-col md:flex-row justify-between items-start md:items-center gap-1">
-          <p className="text-[11px] text-white/30">
+        <div className="border-t border-border pt-2 pb-0 flex flex-col md:flex-row justify-between items-start md:items-center gap-1">
+          <p className="text-[11px] text-muted/40">
             &copy; {new Date().getFullYear()} Leonardo Pham
           </p>
-          <p className="text-[11px] text-white/30">Southern California</p>
+          <p className="text-[11px] text-muted/40">Southern California</p>
         </div>
       </div>
       </FadeIn>

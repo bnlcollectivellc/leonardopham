@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import ClientMarquee from "./ClientMarquee";
 
 type Page = "home" | "content" | "websites" | "apps" | "about";
 
@@ -13,7 +14,12 @@ interface Project {
   link?: string;
   videoId?: string;
   image: string;
+  heroImage?: string;
   details: string[];
+  contain?: boolean;
+  containBg?: string;
+  bgPos?: string;
+  bgSize?: string;
 }
 
 const contentProjects: Project[] = [
@@ -26,8 +32,8 @@ const contentProjects: Project[] = [
 ];
 
 const appProjects: Project[] = [
-  { id: "a1", title: "Tabli", description: "Guitar tablature app with real-time playback", type: "app", link: "https://apps.apple.com", image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&q=80&auto=format&fit=crop", details: ["Built with React Native and Expo featuring a custom audio engine for real-time tab playback", "Offline-first architecture with local storage sync and Apple Music integration"] },
-  { id: "a2", title: "CruLink", description: "B2B platform connecting fabricators with customers", type: "app", link: "https://apps.apple.com", image: "https://images.unsplash.com/photo-1563986768609-322da13575f2?w=600&q=80&auto=format&fit=crop", details: ["Full-stack platform on Next.js and Supabase with Stripe Connect for split payments", "Real-time messaging, order tracking, and multi-tenant architecture for fabrication businesses"] },
+  { id: "a1", title: "Tabli", description: "Split bills and receipts with friends", type: "app", link: "https://apps.apple.com/us/app/tabli-split-bills-receipts/id6760800516", image: "/projects/tabli-icon.png", details: ["React Native and Expo app for splitting bills, scanning receipts, and tracking group expenses", "QR code sharing, itemized splits, and real-time sync across devices"] },
+  { id: "a2", title: "CruLink", description: "B2B platform connecting fabricators with customers", type: "app", link: "https://crulink.com/", image: "/projects/crulink-logo.png", heroImage: "/projects/crulink.png", contain: true, details: ["Full-stack platform on Next.js and Supabase with Stripe Connect for split payments", "Real-time messaging, order tracking, and multi-tenant architecture for fabrication businesses"] },
   { id: "a3", title: "Inventory Tracker", description: "Warehouse management for small manufacturers", type: "app", link: "https://apps.apple.com", image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80&auto=format&fit=crop", details: ["Cross-platform iOS and Android app with barcode scanning and real-time cloud sync", "Built for warehouse floor use with large touch targets and offline-capable data entry"] },
   { id: "a4", title: "Fitness Logger", description: "Minimal workout tracking with Apple Health sync", type: "app", link: "https://apps.apple.com", image: "https://images.unsplash.com/photo-1594882645126-14020914d58d?w=600&q=80&auto=format&fit=crop", details: ["Native Swift and SwiftUI app with deep HealthKit integration and home screen widgets", "Minimalist interface focused on fast logging with automatic set detection"] },
   { id: "a5", title: "Recipe Box", description: "Personal recipe manager with meal planning", type: "app", link: "https://apps.apple.com", image: "https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=600&q=80&auto=format&fit=crop", details: ["React Native app with OCR-powered recipe import from photos and websites", "Meal planning calendar with automatic shopping list generation and pantry tracking"] },
@@ -35,9 +41,9 @@ const appProjects: Project[] = [
 ];
 
 const websiteProjects: Project[] = [
-  { id: "w1", title: "Spandrel Studio", description: "Custom fabrication business site with quote system", type: "website", link: "https://spandrel.com", image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80&auto=format&fit=crop", details: ["Next.js and Tailwind site with a custom multi-step quote builder for fabrication projects", "CMS-powered content management with real-time quote notifications and admin dashboard"] },
-  { id: "w2", title: "Architect Portfolio", description: "Minimal portfolio with project case studies", type: "website", link: "https://example.com", image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&q=80&auto=format&fit=crop", details: ["Single-page design with scroll-driven parallax animations and full-bleed imagery", "Mobile-first responsive layout with lazy-loaded high-res project photography"] },
-  { id: "w3", title: "E-Commerce Store", description: "Full custom storefront with Stripe checkout", type: "website", link: "https://example.com", image: "https://images.unsplash.com/photo-1661956602116-aa6865609028?w=800&q=80&auto=format&fit=crop", details: ["Headless Shopify storefront with custom cart, filtering, and Stripe-powered checkout", "Performance optimized with edge caching, image CDN, and sub-2-second page loads"] },
+  { id: "w1", title: "Spandrel Studio", description: "Custom fabrication business site with quote system", type: "website", link: "https://spandrel-site-v0.vercel.app/", image: "/projects/spandrel.png", heroImage: "/projects/spandrel.png", bgPos: "left top", details: ["Next.js and Tailwind site with a custom multi-step quote builder for fabrication projects", "CMS-powered content management with real-time quote notifications and admin dashboard"] },
+  { id: "w2", title: "Browning's Welding", description: "Commercial fabrication site with quote request system", type: "website", link: "https://www.browningswelding.com/", image: "/projects/brownings-logo.png", heroImage: "/projects/brownings.png", contain: true, containBg: "black", bgSize: "80%", details: ["Full-bleed hero with brand-forward design for a family-owned welding and fabrication business", "Mobile-optimized with quote request flow and service showcase"] },
+  { id: "w3", title: "ADDVO", description: "Swedish IT consultancy with talent matching platform", type: "website", link: "https://www.addvo.se/", image: "/projects/addvo.png", heroImage: "/projects/addvo.png", bgPos: "center", details: ["Modern consultancy site with cinematic hero, service breakdowns, and contact flow", "Built for conversion with clear CTAs and premium visual design"] },
   { id: "w4", title: "SaaS Landing Page", description: "High-converting landing page for B2B product", type: "website", link: "https://example.com", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80&auto=format&fit=crop", details: ["A/B tested layout with analytics integration, heatmap tracking, and conversion funnels", "Built for speed with static generation, edge functions, and optimized Core Web Vitals"] },
   { id: "w5", title: "Restaurant Site", description: "Menu-driven site with reservation system", type: "website", link: "https://example.com", image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80&auto=format&fit=crop", details: ["Menu-driven design with online ordering integration and OpenTable reservation widget", "SEO-optimized with local schema markup, responsive design, and Google Maps embed"] },
   { id: "w6", title: "Agency Rebrand", description: "Complete digital rebrand for creative agency", type: "website", link: "https://example.com", image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&q=80&auto=format&fit=crop", details: ["5-page site with full brand system implementation including typography, color, and motion", "CMS-powered blog with category filtering, social sharing, and newsletter integration"] },
@@ -46,9 +52,11 @@ const websiteProjects: Project[] = [
 interface HeroGalleryProps {
   activePage: Page;
   onContactClick: (subject?: string) => void;
+  onPageChange: (page: Page) => void;
+  onVideoReady?: () => void;
 }
 
-export default function HeroGallery({ activePage, onContactClick }: HeroGalleryProps) {
+export default function HeroGallery({ activePage, onContactClick, onPageChange, onVideoReady }: HeroGalleryProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const stagger = (index: number) => index * 0.07;
 
@@ -67,26 +75,202 @@ export default function HeroGallery({ activePage, onContactClick }: HeroGalleryP
               transition={{ duration: 0.25 }}
               className="pt-4 pb-0"
             >
-              <div className="relative w-full aspect-[4/3] md:aspect-[2.2/1] bg-black rounded-lg overflow-hidden">
+              <div className="relative w-full aspect-[4/3] md:aspect-[2.2/1] bg-[#f0f0f0] rounded-lg overflow-hidden">
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
                   <iframe
-                    src="https://www.youtube.com/embed/K0roS-q_vR4?autoplay=1&mute=1&loop=1&playlist=K0roS-q_vR4&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1"
-                    className="absolute top-1/2 left-1/2 w-[300%] md:w-[180%] h-[300%] md:h-[180%]"
+                    src="https://www.youtube.com/embed/K0roS-q_vR4?autoplay=1&mute=1&loop=1&playlist=K0roS-q_vR4&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1&start=2&end=49"
+                    className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto aspect-video"
                     style={{ border: "none", transform: "translate(-50%, -50%)" }}
                     allow="autoplay; encrypted-media"
                     title="Showreel"
+                    onLoad={() => onVideoReady?.()}
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 pointer-events-none">
-                  <h2 className="text-[clamp(1.75rem,4vw,3rem)] font-light leading-[1.1] tracking-[-0.02em] text-white">
+                  <h2 className="text-[clamp(1.75rem,4vw,3rem)] font-medium leading-[1.1] tracking-[-0.02em] text-white">
                     I make brands move,
                     <br />
-                    <span className="font-normal">websites convert,</span>
+                    <span className="font-bold">websites convert,</span>
                     <br />
                     and apps work.
                   </h2>
                 </div>
+              </div>
+
+              <ClientMarquee />
+
+              {/* ── Featured Section: 2x2 quadrants ── */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                {/* Content quadrant */}
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                >
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3, delay: 0.35 }}
+                    className="mb-4"
+                  >
+                    <button onClick={() => onPageChange("content")} className="flex items-end gap-3 text-foreground hover:text-foreground/60 hover:-translate-y-0.5 transition-all duration-300">
+                      <h3 className="text-[clamp(2rem,5vw,4rem)] font-medium tracking-[-0.03em] leading-[0.95]">Content</h3>
+                      <span className="text-[clamp(0.67rem,1.67vw,1.33rem)] leading-[1.4]">→</span>
+                    </button>
+                  </motion.div>
+                  <div className="grid grid-cols-2 gap-4">
+                    {contentProjects.slice(0, 4).map((project, i) => (
+                      <motion.div
+                        key={project.id}
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: 0.4 + i * 0.07, ease: [0.25, 0.1, 0.25, 1] }}
+                      >
+                        <button
+                          onClick={() => setSelectedProject(project)}
+                          className="group text-left w-full"
+                        >
+                          <div className="relative aspect-square bg-[#f0f0f0] rounded-lg overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.12)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.18)] group-hover:-translate-y-1 transition-all duration-300 ease-out">
+                            <div className={"absolute inset-0 bg-no-repeat"} style={{ backgroundImage: `url('${project.image}')`, backgroundSize: project.bgSize || (project.contain ? "contain" : "cover"), backgroundPosition: project.bgPos || "center", backgroundColor: project.contain ? (project.containBg || "white") : undefined }} />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
+                            <p className="absolute bottom-3 left-3 text-[11px] text-white/80 font-medium">
+                              {project.title}
+                            </p>
+                          </div>
+                        </button>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* Websites quadrant */}
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+                >
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3, delay: 0.5 }}
+                    className="mb-4"
+                  >
+                    <button onClick={() => onPageChange("websites")} className="flex items-end gap-3 text-foreground hover:text-foreground/60 hover:-translate-y-0.5 transition-all duration-300">
+                      <h3 className="text-[clamp(2rem,5vw,4rem)] font-medium tracking-[-0.03em] leading-[0.95]">Websites</h3>
+                      <span className="text-[clamp(0.67rem,1.67vw,1.33rem)] leading-[1.4]">→</span>
+                    </button>
+                  </motion.div>
+                  <div className="grid grid-cols-2 gap-4">
+                    {websiteProjects.slice(0, 4).map((project, i) => (
+                      <motion.div
+                        key={project.id}
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: 0.55 + i * 0.07, ease: [0.25, 0.1, 0.25, 1] }}
+                      >
+                        <button
+                          onClick={() => setSelectedProject(project)}
+                          className="group text-left w-full"
+                        >
+                          <div className="relative aspect-square bg-[#f0f0f0] rounded-lg overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.12)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.18)] group-hover:-translate-y-1 transition-all duration-300 ease-out">
+                            <div className={"absolute inset-0 bg-no-repeat"} style={{ backgroundImage: `url('${project.image}')`, backgroundSize: project.bgSize || (project.contain ? "contain" : "cover"), backgroundPosition: project.bgPos || "center", backgroundColor: project.contain ? (project.containBg || "white") : undefined }} />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
+                            <p className="absolute bottom-3 left-3 text-[11px] text-white/80 font-medium">
+                              {project.title}
+                            </p>
+                          </div>
+                        </button>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* Apps quadrant */}
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                >
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3, delay: 0.65 }}
+                    className="mb-4"
+                  >
+                    <button onClick={() => onPageChange("apps")} className="flex items-end gap-3 text-foreground hover:text-foreground/60 hover:-translate-y-0.5 transition-all duration-300">
+                      <h3 className="text-[clamp(2rem,5vw,4rem)] font-medium tracking-[-0.03em] leading-[0.95]">Apps</h3>
+                      <span className="text-[clamp(0.67rem,1.67vw,1.33rem)] leading-[1.4]">→</span>
+                    </button>
+                  </motion.div>
+                  <div className="grid grid-cols-2 gap-4">
+                    {appProjects.slice(0, 4).map((project, i) => (
+                      <motion.div
+                        key={project.id}
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: 0.7 + i * 0.07, ease: [0.25, 0.1, 0.25, 1] }}
+                      >
+                        <button
+                          onClick={() => setSelectedProject(project)}
+                          className="group text-left w-full"
+                        >
+                          <div className="relative aspect-square bg-[#f0f0f0] rounded-lg overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.12)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.18)] group-hover:-translate-y-1 transition-all duration-300 ease-out">
+                            <div className={"absolute inset-0 bg-no-repeat"} style={{ backgroundImage: `url('${project.image}')`, backgroundSize: project.bgSize || (project.contain ? "contain" : "cover"), backgroundPosition: project.bgPos || "center", backgroundColor: project.contain ? (project.containBg || "white") : undefined }} />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
+                            <p className="absolute bottom-3 left-3 text-[11px] text-white/80 font-medium">
+                              {project.title}
+                            </p>
+                          </div>
+                        </button>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* About quadrant */}
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.75, ease: [0.25, 0.1, 0.25, 1] }}
+                >
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3, delay: 0.8 }}
+                    className="mb-4"
+                  >
+                    <button onClick={() => onPageChange("about")} className="flex items-end gap-3 text-foreground hover:text-foreground/60 hover:-translate-y-0.5 transition-all duration-300">
+                      <h3 className="text-[clamp(2rem,5vw,4rem)] font-medium tracking-[-0.03em] leading-[0.95]">About</h3>
+                      <span className="text-[clamp(0.67rem,1.67vw,1.33rem)] leading-[1.4]">→</span>
+                    </button>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
+                  >
+                    <button
+                      onClick={() => onPageChange("about")}
+                      className="group text-left w-full"
+                    >
+                      <div className="relative aspect-square bg-[#f0f0f0] rounded-lg overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.12)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.18)] group-hover:-translate-y-1 transition-all duration-300 ease-out">
+                        <div
+                          className="absolute inset-0 bg-cover bg-center"
+                          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop')" }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                        <div className="absolute bottom-4 left-4">
+                          <p className="text-[16px] font-medium text-white leading-tight">Leonardo Pham</p>
+                          <p className="text-[12px] text-white/70 mt-1">Creative Developer</p>
+                        </div>
+                      </div>
+                    </button>
+                  </motion.div>
+                </motion.div>
               </div>
             </motion.div>
           )}
@@ -101,7 +285,7 @@ export default function HeroGallery({ activePage, onContactClick }: HeroGalleryP
               transition={{ duration: 0.25 }}
               className="py-4"
                           >
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {contentProjects.map((project, i) => (
                   <motion.div
                     key={project.id}
@@ -113,9 +297,10 @@ export default function HeroGallery({ activePage, onContactClick }: HeroGalleryP
                       onClick={() => setSelectedProject(project)}
                       className="group text-left w-full"
                     >
-                      <div className="relative aspect-[3/4] bg-[#f0f0f0] rounded-lg overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] group-hover:shadow-[0_6px_24px_rgba(0,0,0,0.1)] transition-shadow duration-300">
-                        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${project.image}')` }} />
+                      <div className="relative aspect-square bg-[#f0f0f0] rounded-lg overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.12)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.18)] group-hover:-translate-y-1 transition-all duration-300 ease-out">
+                        <div className={"absolute inset-0 bg-no-repeat"} style={{ backgroundImage: `url('${project.image}')`, backgroundSize: project.bgSize || (project.contain ? "contain" : "cover"), backgroundPosition: project.bgPos || "center", backgroundColor: project.contain ? (project.containBg || "white") : undefined }} />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
                         <p className="absolute bottom-4 left-4 text-[12px] text-white/80 font-medium">
                           {project.title}
                         </p>
@@ -123,6 +308,19 @@ export default function HeroGallery({ activePage, onContactClick }: HeroGalleryP
                     </button>
                   </motion.div>
                 ))}
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: stagger(contentProjects.length), ease: [0.25, 0.1, 0.25, 1] }}
+                >
+                  <button onClick={() => onContactClick("Content Project")} className="group text-left w-full">
+                    <div className="relative aspect-square bg-white border border-border rounded-lg overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.12)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.18)] group-hover:-translate-y-1 transition-all duration-300 ease-out flex flex-col items-start justify-end p-5">
+                      <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/[0.03] transition-colors duration-300" />
+                      <p className="text-[clamp(1rem,2.5vw,1.5rem)] font-medium leading-tight text-foreground tracking-[-0.02em]">Let&apos;s make your<br />brand move.</p>
+                      <p className="text-[12px] text-muted mt-2">Start a project →</p>
+                    </div>
+                  </button>
+                </motion.div>
               </div>
             </motion.div>
           )}
@@ -137,7 +335,7 @@ export default function HeroGallery({ activePage, onContactClick }: HeroGalleryP
               transition={{ duration: 0.25 }}
               className="py-4"
                           >
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {websiteProjects.map((project, i) => (
                   <motion.div
                     key={project.id}
@@ -149,9 +347,10 @@ export default function HeroGallery({ activePage, onContactClick }: HeroGalleryP
                       onClick={() => setSelectedProject(project)}
                       className="group text-left w-full"
                     >
-                      <div className="relative aspect-[16/10] bg-[#f0f0f0] rounded-lg overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] group-hover:shadow-[0_6px_24px_rgba(0,0,0,0.1)] transition-shadow duration-300">
-                        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${project.image}')` }} />
+                      <div className="relative aspect-square bg-[#f0f0f0] rounded-lg overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.12)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.18)] group-hover:-translate-y-1 transition-all duration-300 ease-out">
+                        <div className={"absolute inset-0 bg-no-repeat"} style={{ backgroundImage: `url('${project.image}')`, backgroundSize: project.bgSize || (project.contain ? "contain" : "cover"), backgroundPosition: project.bgPos || "center", backgroundColor: project.contain ? (project.containBg || "white") : undefined }} />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
                         <p className="absolute bottom-4 left-4 text-[12px] text-white/80 font-medium">
                           {project.title}
                         </p>
@@ -159,6 +358,19 @@ export default function HeroGallery({ activePage, onContactClick }: HeroGalleryP
                     </button>
                   </motion.div>
                 ))}
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: stagger(websiteProjects.length), ease: [0.25, 0.1, 0.25, 1] }}
+                >
+                  <button onClick={() => onContactClick("Website Project")} className="group text-left w-full">
+                    <div className="relative aspect-square bg-white border border-border rounded-lg overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.12)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.18)] group-hover:-translate-y-1 transition-all duration-300 ease-out flex flex-col items-start justify-end p-5">
+                      <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/[0.03] transition-colors duration-300" />
+                      <p className="text-[clamp(1rem,2.5vw,1.5rem)] font-medium leading-tight text-foreground tracking-[-0.02em]">Let&apos;s build your<br />dream site.</p>
+                      <p className="text-[12px] text-muted mt-2">Start a project →</p>
+                    </div>
+                  </button>
+                </motion.div>
               </div>
             </motion.div>
           )}
@@ -173,7 +385,7 @@ export default function HeroGallery({ activePage, onContactClick }: HeroGalleryP
               transition={{ duration: 0.25 }}
               className="py-4"
                           >
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {appProjects.map((project, i) => (
                   <motion.div
                     key={project.id}
@@ -185,9 +397,10 @@ export default function HeroGallery({ activePage, onContactClick }: HeroGalleryP
                       onClick={() => setSelectedProject(project)}
                       className="group text-left w-full"
                     >
-                      <div className="relative aspect-square bg-[#f0f0f0] rounded-lg overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] group-hover:shadow-[0_6px_24px_rgba(0,0,0,0.1)] transition-shadow duration-300">
-                        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${project.image}')` }} />
+                      <div className="relative aspect-square bg-[#f0f0f0] rounded-lg overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.12)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.18)] group-hover:-translate-y-1 transition-all duration-300 ease-out">
+                        <div className={"absolute inset-0 bg-no-repeat"} style={{ backgroundImage: `url('${project.image}')`, backgroundSize: project.bgSize || (project.contain ? "contain" : "cover"), backgroundPosition: project.bgPos || "center", backgroundColor: project.contain ? (project.containBg || "white") : undefined }} />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
                         <p className="absolute bottom-4 left-4 text-[12px] text-white/80 font-medium">
                           {project.title}
                         </p>
@@ -195,6 +408,19 @@ export default function HeroGallery({ activePage, onContactClick }: HeroGalleryP
                     </button>
                   </motion.div>
                 ))}
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: stagger(appProjects.length), ease: [0.25, 0.1, 0.25, 1] }}
+                >
+                  <button onClick={() => onContactClick("App Project")} className="group text-left w-full">
+                    <div className="relative aspect-square bg-white border border-border rounded-lg overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.12)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.18)] group-hover:-translate-y-1 transition-all duration-300 ease-out flex flex-col items-start justify-end p-5">
+                      <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/[0.03] transition-colors duration-300" />
+                      <p className="text-[clamp(1rem,2.5vw,1.5rem)] font-medium leading-tight text-foreground tracking-[-0.02em]">Let&apos;s build your<br />next app.</p>
+                      <p className="text-[12px] text-muted mt-2">Start a project →</p>
+                    </div>
+                  </button>
+                </motion.div>
               </div>
             </motion.div>
           )}
@@ -220,7 +446,7 @@ export default function HeroGallery({ activePage, onContactClick }: HeroGalleryP
                   />
                 </div>
                 <div className="flex flex-col justify-end py-4 lg:pl-6">
-                  <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-light leading-[0.95] tracking-[-0.03em] text-foreground mb-8">
+                  <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-medium leading-[0.95] tracking-[-0.03em] text-foreground mb-8">
                     Leonardo
                     <br />
                     Pham
@@ -307,7 +533,7 @@ export default function HeroGallery({ activePage, onContactClick }: HeroGalleryP
                     }}
                     className={`relative w-full bg-[#f0f0f0] ${selectedProject.type === "app" ? "aspect-square" : "aspect-[16/10]"} cursor-pointer group`}
                   >
-                    <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${selectedProject.image}')` }} />
+                    <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${selectedProject.heroImage || selectedProject.image}')` }} />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                       <div className="w-14 h-14 rounded-full bg-foreground/80 flex items-center justify-center">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="white" strokeWidth="1.5">
