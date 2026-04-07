@@ -49,7 +49,7 @@ export default function Home() {
               <Navigation
                 activePage={activePage}
                 onPageChange={handlePageChange}
-                onContactClick={() => openContact("Contact")}
+                onContactClick={() => openContact("Reaching Out")}
               />
             </motion.div>
 
