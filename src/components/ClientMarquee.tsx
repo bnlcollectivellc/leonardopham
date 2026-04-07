@@ -1,11 +1,11 @@
 "use client";
 
 const clients = [
-  "Google",
   "Vice",
   "Vitamin Water",
   "Mediabrands",
   "BREACH",
+  "Google",
   "Atheory",
   "1000heads",
   "Coca Cola",
