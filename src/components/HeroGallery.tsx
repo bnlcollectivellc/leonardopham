@@ -16,6 +16,7 @@ interface Project {
   image: string;
   heroImage?: string;
   details: string[];
+  extraVideos?: string[];
   contain?: boolean;
   containBg?: string;
   bgPos?: string;
@@ -23,12 +24,12 @@ interface Project {
 }
 
 const contentProjects: Project[] = [
-  { id: "c1", title: "Vice Reel", description: "Motion graphics package for Vice media campaign", type: "video", videoId: "K0roS-q_vR4", image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=600&q=80&auto=format&fit=crop", details: ["30-second reel with kinetic typography and brand-matched color grading", "Motion graphics + text animation delivered in 3 aspect ratios for Stories, Reels, and feed"] },
-  { id: "c2", title: "Brand Launch", description: "Social media launch campaign with 5 deliverables", type: "video", videoId: "K0roS-q_vR4", image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=600&q=80&auto=format&fit=crop", details: ["5 videos ranging 15–60 seconds across Instagram, LinkedIn, and TikTok", "Full asset sourcing including stock footage, SFX, and licensed music"] },
-  { id: "c3", title: "Product Promo", description: "E-commerce product showcase for Instagram", type: "video", videoId: "K0roS-q_vR4", image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80&auto=format&fit=crop", details: ["Product reveal animation with 3D-style motion and smooth transitions", "Optimized for Reels and Stories with client-provided product photography"] },
-  { id: "c4", title: "Event Recap", description: "Highlight reel from live brand activation", type: "video", videoId: "K0roS-q_vR4", image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80&auto=format&fit=crop", details: ["60-second recap cut from on-site footage with SFX and music sourcing", "Same-day turnaround for social posting while the event was still trending"] },
-  { id: "c5", title: "Tutorial Series", description: "Educational content for LinkedIn audience", type: "video", videoId: "K0roS-q_vR4", image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=80&auto=format&fit=crop", details: ["3-part animated series with text overlays, voiceover sync, and branded lower thirds", "LinkedIn-optimized vertical and square formats with captions baked in"] },
-  { id: "c6", title: "App Walkthrough", description: "UI walkthrough animation for app launch", type: "video", videoId: "K0roS-q_vR4", image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&q=80&auto=format&fit=crop", details: ["Screen recording composited with device mockup frames and smooth transitions", "30-second App Store preview video with motion callouts on key features"] },
+  { id: "c1", title: "Vice Reel", description: "Motion graphics for Vice media TikTok campaign", type: "video", videoId: "BTXRNMnvGLE", image: "/projects/vice-thumb.jpg", details: ["Drug Moments TikTok campaign with kinetic typography and brand-matched color grading", "Motion graphics + text animation delivered for TikTok and social platforms"] },
+  { id: "c2", title: "MBCS Outreach", description: "Multi-video outreach campaign for MBCS", type: "video", videoId: "Ail7YEz__4M", image: "/projects/mbcs-thumb.jpg", extraVideos: ["1cmrdWIwhgs", "4pwxmD_6ROU", "3CkU_ULq5Xc"], details: ["4-part video series across YouTube and Instagram Shorts for community outreach", "Mix of long-form content and vertical Shorts for multi-platform distribution"] },
+  { id: "c3", title: "Motion Graphics Reel", description: "2024 motion graphics showreel", type: "video", videoId: "K0roS-q_vR4", image: "/projects/mograph-thumb.jpg", details: ["Compilation reel showcasing kinetic typography, brand animations, and motion design", "Features work across multiple clients and platforms"] },
+  { id: "c4", title: "EasyHerb NYC", description: "Social content for NYC herbal brand", type: "video", videoId: "zQ4Le_cCUzE", image: "/projects/easyherb-logo.png", contain: true, extraVideos: ["C_xi36p9RSQ", "rCkgiSjDxD8", "SQ2NMuv97UI", "74yp7OCxnjo", "_5xRiHfdzoA", "mQMS04BEqNo"], details: ["Multi-format social content including Reels, product showcases, and lifestyle shoots", "Full production from concept to delivery for Instagram and TikTok"] },
+  { id: "c5", title: "Sacred Embodiment", description: "Instagram ad campaign for wellness brand", type: "video", videoId: "uRoR99UJmx4", image: "/projects/sacred-thumb.jpg", extraVideos: ["-KHqQ14M0zc", "0-Le2jUDjlE"], details: ["Series of Instagram ads for Sacred Embodiment wellness brand", "Visually-driven ad creatives designed for conversion on Instagram feed and Stories"] },
+  { id: "c6", title: "Sprite x UPROXX", description: "Concept video pitched at Mediabrands Content Studio", type: "video", videoId: "tE9PJ_nkhvk", image: "/projects/sprite-thumb.jpg", details: ["Concept video pitched at Mediabrands Content Studio under McCann Worldgroup for Sprite x UPROXX", "On-location direction with talent, styled shoots, and full post-production"] },
 ];
 
 const appProjects: Project[] = [
@@ -585,12 +586,23 @@ export default function HeroGallery({ activePage, onContactClick, onPageChange, 
                     </p>
                   </div>
 
-                  {/* Screenshots */}
-                  <div className="grid grid-cols-2 gap-3 mt-6">
-                    {[1, 2, 3, 4].map((n) => (
-                      <div key={n} className="bg-[#f0f0f0] rounded-md aspect-[4/3]" />
-                    ))}
-                  </div>
+                  {/* Extra videos / Screenshots */}
+                  {selectedProject.extraVideos && selectedProject.extraVideos.length > 0 && (
+                    <div className="grid grid-cols-2 gap-3 mt-6">
+                      {selectedProject.extraVideos.map((vid) => (
+                        <div key={vid} className="relative bg-black rounded-md overflow-hidden aspect-[9/16]">
+                          <iframe
+                            src={`https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1&playsinline=1`}
+                            className="w-full h-full"
+                            style={{ border: "none" }}
+                            allow="encrypted-media"
+                            allowFullScreen
+                            title={vid}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>
