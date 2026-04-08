@@ -37,6 +37,27 @@ const YouTubeIcon = () => (
 
 const links: LinkCard[] = [
   {
+    id: "instagram",
+    title: "Instagram",
+    href: "https://www.instagram.com/leopham2026/",
+    icon: <InstagramIcon />,
+    bg: "linear-gradient(135deg, #833AB4, #E1306C, #F77737)",
+  },
+  {
+    id: "tiktok",
+    title: "TikTok",
+    href: "https://www.tiktok.com/@leopham2026",
+    icon: <TikTokIcon />,
+    bg: "#000000",
+  },
+  {
+    id: "youtube",
+    title: "YouTube",
+    href: "https://www.youtube.com/@leonardopham00",
+    icon: <YouTubeIcon />,
+    bg: "#FF0000",
+  },
+  {
     id: "tabli",
     title: "Tabli",
     href: "https://apps.apple.com/us/app/tabli-split-bills-receipts/id6760800516",
@@ -49,27 +70,6 @@ const links: LinkCard[] = [
     href: "https://sillwriting.vercel.app",
     image: "/projects/sillwriting-preview.png",
     contain: true,
-  },
-  {
-    id: "tiktok",
-    title: "TikTok",
-    href: "https://www.tiktok.com/@leopham2026",
-    icon: <TikTokIcon />,
-    bg: "#000000",
-  },
-  {
-    id: "instagram",
-    title: "Instagram",
-    href: "https://www.instagram.com/leopham2026/",
-    icon: <InstagramIcon />,
-    bg: "linear-gradient(135deg, #833AB4, #E1306C, #F77737)",
-  },
-  {
-    id: "youtube",
-    title: "YouTube",
-    href: "https://www.youtube.com/@leonardopham00",
-    icon: <YouTubeIcon />,
-    bg: "#FF0000",
   },
 ];
 
@@ -130,7 +130,7 @@ export default function LinksPage() {
           {/* Card grid */}
           <main className="pt-14 md:pt-14">
             <div className="px-4 py-4">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 {links.map((link, i) => (
                   <motion.div
                     key={link.id}
@@ -177,10 +177,10 @@ export default function LinksPage() {
                           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                         )}
                         <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
-                        <p className={`absolute bottom-4 left-4 text-[12px] font-medium ${link.icon ? "text-white/90" : "text-white/80"}`}>
-                          {link.title}
-                        </p>
                       </div>
+                      <p className="mt-2 text-[12px] font-medium text-foreground">
+                        {link.title}
+                      </p>
                     </a>
                   </motion.div>
                 ))}
