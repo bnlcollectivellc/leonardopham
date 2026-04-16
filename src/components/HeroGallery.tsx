@@ -35,15 +35,17 @@ const contentProjects: Project[] = [
 const appProjects: Project[] = [
   { id: "a1", title: "CruLink", description: "B2B platform connecting fabricators with customers", type: "app", link: "https://crulink.com/", image: "/projects/crulink-logo.png", heroImage: "/projects/crulink.png", contain: true, details: ["Full-stack platform on Next.js and Supabase with Stripe Connect for split payments", "Real-time messaging, order tracking, and multi-tenant architecture for fabrication businesses"] },
   { id: "a2", title: "Tabli", description: "Split bills and receipts with friends", type: "app", link: "https://apps.apple.com/us/app/tabli-split-bills-receipts/id6760800516", image: "/projects/tabli-icon.png", details: ["React Native and Expo app for splitting bills, scanning receipts, and tracking group expenses", "QR code sharing, itemized splits, and real-time sync across devices"] },
-  { id: "a3", title: "Sill Writing", description: "Ambient writing app exploring life through themed prompts", type: "app", image: "/projects/sillwriting-preview.png", contain: true, details: ["Minimalist writing experience with ambient soundscapes and curated prompts across themes like Life, Death, Relationships, Purpose, and Joy", "Designed for introspective journaling with a distraction-free interface and atmospheric audio by PatrickLieberkind"] },
+  { id: "a3", title: "4:5", description: "Reframe horizontal video for vertical-first platforms", type: "app", link: "https://apps.apple.com/us/app/4-5-video-reframer/id6762262950", image: "/projects/fourfive-icon.png", contain: true, details: ["iOS app for reframing 16:9 footage to 4:5 and 9:16 with keyframed subject tracking", "Built in SwiftUI with a minimal scrubber-first UI — pick your subject, pick your crops, export"] },
+  { id: "a4", title: "Sill Writing", description: "Ambient writing app exploring life through themed prompts", type: "app", image: "/projects/sillwriting-preview.png", contain: true, details: ["Minimalist writing experience with ambient soundscapes and curated prompts across themes like Life, Death, Relationships, Purpose, and Joy", "Designed for introspective journaling with a distraction-free interface and atmospheric audio by PatrickLieberkind"] },
 ];
 
 const websiteProjects: Project[] = [
   { id: "w1", title: "Browning's Welding", description: "Commercial fabrication site with quote request system", type: "website", link: "https://www.browningswelding.com/", image: "/projects/brownings-preview.png", heroImage: "/projects/brownings.png", details: ["Full-bleed hero with brand-forward design for a family-owned welding and fabrication business", "Mobile-optimized with quote request flow and service showcase"] },
   { id: "w2", title: "Spandrel Studio", description: "Custom fabrication business site with quote system", type: "website", link: "https://spandrel-site-v0.vercel.app/", image: "/projects/spandrel.png", heroImage: "/projects/spandrel.png", bgPos: "left top", details: ["Next.js and Tailwind site with a custom multi-step quote builder for fabrication projects", "CMS-powered content management with real-time quote notifications and admin dashboard"] },
-  { id: "w3", title: "Monolith", description: "Experimental design system test site", type: "website", link: "https://monolithnewsystemdesigntest.vercel.app/", image: "/projects/monolith.png", heroImage: "/projects/monolith.png", details: ["Experimental test environment for a new design system exploring generative visuals and layout patterns", "Built as a proof-of-concept for visual identity exploration with procedural graphics"] },
-  { id: "w4", title: "ADDVO", description: "Swedish IT consultancy with talent matching platform", type: "website", link: "https://www.addvo.se/", image: "/projects/addvo.png", heroImage: "/projects/addvo.png", bgPos: "center", details: ["Modern consultancy site with cinematic hero, service breakdowns, and contact flow", "Built for conversion with clear CTAs and premium visual design"] },
-  { id: "w5", title: "Leonardo Pham", description: "Freelance portfolio with tab-based navigation", type: "website", link: "https://leonardopham.vercel.app/", image: "/projects/leonardopham.png", heroImage: "/projects/leonardopham.png", bgPos: "left top", details: ["Single-page portfolio built with Next.js, Tailwind CSS, and Framer Motion", "Tab-based navigation with cascading animations, project modals, and embedded video showreel"] },
+  { id: "w3", title: "B&L Site Demos", description: "Multi-variant website demo with live customizer", type: "website", link: "https://bnlsitedemos.vercel.app/", image: "/projects/bnlsitedemos.png", heroImage: "/projects/bnlsitedemos.png", details: ["Three-variant editorial demo (Editorial, Atelier, Concierge) with a live customizer that swaps layout, profession, and palette in real time across five business types", "Custom slide-in panel built with the Web Animations API, per-profession content system, and mobile-first responsive design"] },
+  { id: "w4", title: "Monolith", description: "Experimental design system test site", type: "website", link: "https://monolithnewsystemdesigntest.vercel.app/", image: "/projects/monolith.png", heroImage: "/projects/monolith.png", details: ["Experimental test environment for a new design system exploring generative visuals and layout patterns", "Built as a proof-of-concept for visual identity exploration with procedural graphics"] },
+  { id: "w5", title: "ADDVO", description: "Swedish IT consultancy with talent matching platform", type: "website", link: "https://www.addvo.se/", image: "/projects/addvo.png", heroImage: "/projects/addvo.png", bgPos: "center", details: ["Modern consultancy site with cinematic hero, service breakdowns, and contact flow", "Built for conversion with clear CTAs and premium visual design"] },
+  { id: "w6", title: "Leonardo Pham", description: "Freelance portfolio with tab-based navigation", type: "website", link: "https://leonardopham.vercel.app/", image: "/projects/leonardopham.png", heroImage: "/projects/leonardopham.png", bgPos: "left top", details: ["Single-page portfolio built with Next.js, Tailwind CSS, and Framer Motion", "Tab-based navigation with cascading animations, project modals, and embedded video showreel"] },
 ];
 
 interface HeroGalleryProps {
@@ -257,12 +259,12 @@ export default function HeroGallery({ activePage, onContactClick, onPageChange, 
                       <div className="relative aspect-square bg-[#f0f0f0] rounded-lg overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.12)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.18)] group-hover:-translate-y-1 transition-all duration-300 ease-out">
                         <div
                           className="absolute inset-0 bg-cover bg-center"
-                          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop')" }}
+                          style={{ backgroundImage: "url('/projects/bio.png')" }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                         <div className="absolute bottom-4 left-4">
                           <p className="text-[16px] font-medium text-white leading-tight">Leonardo Pham</p>
-                          <p className="text-[12px] text-white/70 mt-1">Creative Developer</p>
+                          <p className="text-[12px] text-white/70 mt-1">Design Engineer</p>
                         </div>
                       </div>
                     </button>
@@ -437,8 +439,7 @@ export default function HeroGallery({ activePage, onContactClick, onPageChange, 
                   <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                     style={{
-                      backgroundImage:
-                        "url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&auto=format&fit=crop')",
+                      backgroundImage: "url('/projects/bio.png')",
                     }}
                   />
                 </div>
@@ -449,7 +450,7 @@ export default function HeroGallery({ activePage, onContactClick, onPageChange, 
                     Pham
                   </h2>
                   <p className="text-[14px] leading-relaxed text-muted mb-3 max-w-[420px]">
-                    Creative developer based in Southern California. I help
+                    Design engineer based in Southern California. I help
                     businesses cut through the noise with social media content,
                     high-converting websites, and software that actually works.
                   </p>
